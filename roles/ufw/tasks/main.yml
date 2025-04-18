@@ -1,0 +1,49 @@
+---
+
+- name: Установить UFW
+  apt:
+    name: ufw
+    state: present
+    update_cache: true
+
+- name: Сбросить UFW
+  command: ufw --force reset
+
+- name: Установить политики по умолчанию
+  ufw:
+    direction: incoming
+    policy: deny
+
+- name: Разрешить исходящие соединения
+  ufw:
+    direction: outgoing
+    policy: allow
+
+- name: Разрешить SSH
+  ufw:
+    rule: allow
+    port: "{{ ssh_port }}"
+    proto: tcp
+
+- name: Включить ограничение на SSH
+  ufw:
+    rule: limit
+    port: "{{ ssh_port }}"
+    proto: tcp
+
+- name: Разрешить TCP порты
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  loop: "{{ tcp_ports }}"
+
+- name: Разрешить UDP порты
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: udp
+  loop: "{{ udp_ports }}"
+
+- name: Включить UFW
+  command: ufw --force enable

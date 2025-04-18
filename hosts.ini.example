@@ -1,0 +1,2 @@
+[vpn_servers]
+server1 ansible_host=YOUR_SERVER_IP ansible_port=22 ansible_user=root
