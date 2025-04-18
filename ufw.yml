@@ -1,0 +1,6 @@
+---
+- name: Настройка UFW через кастомную роль
+  hosts: vpn_servers
+  become: true
+  roles:
+    - ufw
